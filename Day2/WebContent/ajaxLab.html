@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+  <script>
+		function sendAjaxRequest() {
+			$.ajax({
+				url: "countries.jsp",
+				dataType : "json",
+				success : function(response) {
+					$(response.countries).each(function() {
+						var option = "<option>" + this + "</option>"
+						$("#countries").append(option);
+					     						
+					});
+				}
+			});
+		}
+		
+var cities = [];
+function fetchCities() {
+			
+	if(!cities[$("#countries").val()]) {
+			
+			$.ajax({
+				data : {
+					country : $("#countries").val()
+				},
+				url: "cities.jsp",
+				dataType : "json",
+				success : function(response) {
+					$("#cities").html("");
+					$(response.cities).each(function() {
+						var option = "<option>" + this + "</option>"
+						$("#cities").append(option);
+					     						
+					});
+				}
+			});
+		}else {
+			console.log("Loading locally");	
+			$("#cities").html("");
+			for(var i=0;i<cities.length;i++){
+				var option = "<option>" + cities[i] + "</option>";
+				$("#cities").append(option);
+			}
+		}
+    }
+		
+	//$().ready(sendAjaxRequest, showCities);
+	
+	$().ready(function() {
+		sendAjaxRequest();
+		showCities();		
+	});	
+	
+	function showCities() {
+		$("#countries").on("change",function() {
+			fetchCities();			
+			
+		});
+		
+	}
+		
+	//});
+</script>
+</head>
+<body>
+
+	Countries:<select size="4" id="countries">
+	  
+	</select> </br>
+	
+	Cities: <select size="4" id="cities"></select>  </br>
+
+	<h2 id="resultH2"></h2> </br>
+
+	<input type="button" value="Click" id="btnClick"> <br/>	
+	
+</body>
+</html>

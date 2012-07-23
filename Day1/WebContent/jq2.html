@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+<script>
+	$().ready(function() {
+		
+		$("#add").on("click",function() {
+			
+			var name=$("#name").val();
+			var age=$("#age").val();
+			var remove = "<td> <input type='checkbox' id='ck'> </td>";
+			var tr = "<tr><td>" +name + "</td> <td>" + age + "</td>" + remove;
+			
+			$("#t1").append(tr);	
+		});
+		$("#remove").on("click",function() {
+			$("#ck:checked").parents('tr').remove();	
+		});
+		
+	});
+	
+</script>
+</head>
+<body>
+
+  Name : <input type="text" id="name"> </br>
+  Age : <input type="text" id="age"> </br>
+  <input type="button" value="Add" id="add">
+  
+  <table border="1" id="t1">
+    <tr>
+      <td> Name </td>
+      <td> Age </td>
+      <td> Remove </td>            
+    </tr>
+  </table>
+   
+  <input type="button" value="Remove" id="remove"> 
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+<script>
+	$().ready(function() {
+		window.setInterval("getTime()", 1000);
+		$("#btn").on("click",sendAjaxRequest); 
+	});	
+	function sendAjaxRequest() {
+		$.ajax( {
+			url : "server.jsp",
+			data : {
+				name : $("#name").val()
+			},
+			type : "GET",
+			success : function(response) {
+				alert(response);
+			},
+		    error : function(error) {
+		    	alert ("Error : " + error.statusText);
+		    }
+		})
+	  }	
+		
+	  function getTime() {
+			$("#time").load("time.jsp");
+      }	
+
+	
+</script>
+</head>
+<body>
+  <h1 id="time"> </h1>
+  <input type="text" id="name"> </br>
+  <input type="button" value="Click" id="btn"> 
+
+</body>
+</html>

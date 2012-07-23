@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+<script>
+	$().ready(function() {
+		$("input:text").attr("maxlength","3");
+		$("input:text").css("width","40");
+		
+		$("#btn").on("click",function(){
+			$("#t1,#t2,#t3,#t4").attr("disabled",true);
+		});		
+		$("input:text").each(function() {
+			$(this).on("keyup",function(){
+				var len = $(this).val().length;
+				if(len==3){
+					$(this).next().focus();		 	
+				}
+			});
+		});
+				
+		$("#t4").on("keyup",function(){
+			var len = $(this).val().length;
+			if(len==3){
+				$("#btn").focus();		 	
+			}
+		});
+		
+	});
+	
+</script>
+</head>
+<body>
+
+  IP Address : <input type="text" id="t1" maxlength="3"> -
+  <input type="text" id="t2" maxlength="3"> -
+  <input type="text" id="t3" maxlength="3"> -
+  <input type="text" id="t4" maxlength="3">
+  
+  </br>
+  
+  <input type="button" value="Click" id="btn">
+
+</body>
+</html>

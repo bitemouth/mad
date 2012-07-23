@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="jquery.mobile-1.1.1.css">
+<script src="jquery-1.7.2.min.js"></script>
+<script src="jquery.mobile-1.1.1.js"></script>
+
+<script>
+	function authenticate() {
+		$.ajax({
+			url: "login.jsp",
+			dataType : "json",
+			data : {
+				user : $("#user").val(),
+				pwd : $("#pwd").val(),
+			},
+			success : function(response) {
+				if(response.output=="Invalid credentials") {
+					$("#msg").text(response.output);					
+				}else{
+					$.mobile.changePage("#countryScreen",{
+						transition: "slide",
+					});
+				}
+			}
+		  });
+	}
+	
+	function populateCountries() {
+		$.ajax({
+			url: "countries.jsp",
+			dataType : "json",
+			success : function(response) {
+				$(response.countries).each(function() {
+					var option = "<li> <a href=''>" + this + "</a></li>";
+					$("#clist").append(option);
+				     						
+				});
+			}
+		});
+	}
+	
+	function populateCities(country) {
+		$.ajax({
+			data : {
+				country : country
+			},
+			url: "cities.jsp",
+			dataType : "json",
+			success : function(response) {
+				$("#citylist").html("");
+				$(response.cities).each(function() {
+					var option = "<li>" + this + "</li>"
+					$("#citylist").append(option);
+				     						
+				});
+			}
+		});
+
+	}
+	
+/*	function showHomeScreen(){
+		$.mobile.changePage("#countryScreen");
+	}	
+*/	
+
+	$().ready(function() {
+		$("#clickBtn").on("click",authenticate);
+		$("#countryScreen").bind("pageinit",populateCountries);
+//		$("#cityScreen").bind("pageinit",populateCities);		
+		$("#clist li a").live("click",function(){
+//			alert($(this).text());
+			$.mobile.changePage("#cityScreen",{
+				transition: "slide"
+		 	});
+			populateCities($(this).text());	
+		});	
+		
+	});
+	
+</script>
+
+</head>
+<body>
+	
+	<div data-role="page">
+		<div data-role="header" data-theme="a">
+			<h3>Welcome to Banca Sella</h3>
+		</div>
+		<div data-role="content" data-theme="b">
+				<div data-role="fieldcontain">
+				 	<label>User Name </label>
+					<input type="text" id="user">
+				</div>
+				<div data-role="fieldcontain">
+				 	<label>Password </label>
+					<input type="password" id="pwd">
+				</div>
+				<div data-role="button" id="clickBtn">
+					Login				
+				</div>
+				<div>
+					<h2 id="msg"></h2>
+				</div>
+		</div>
+		<div data-role="footer" data-theme="a">
+			<p>
+				Copy Rights reserved 2012. </br>
+			</p>
+		</div>
+	</div>
+
+	<div data-role="page" id="countryScreen">
+		<div data-role="header"> 	
+			<h2>You are welcome.</h2>
+		</div>
+	 	<div data-role="collapsible-set" data-theme="b">
+			<div data-role="collapsible" data-collapsed="false" data-content-theme="a">
+				<h2>Countries</h2>
+				<ul id = "clist" data-role="listview" data-insert="true">
+				</ul>
+			</div>
+ 		</div>		
+		<div data-role="footer" data-theme="a">
+			<p>
+				Copy Rights reserved 2012. </br>
+			</p>
+		</div>
+		
+	</div>
+
+	<div data-role="page" id="cityScreen">
+		<div data-role="header" data-theme="b">
+			<a href="#countryScreen">Back</a>
+			<h2 id="citiesScreenHeader"></h2>
+		</div>	
+		<div data-role="content" data-theme="b">
+			<ul id = "citylist" data-role="listview">
+			</ul>
+		</div>
+			<div data-role="footer" data-theme="a">
+			<p>
+				Copy Rights reserved 2012. </br>
+			</p>
+		</div>
+	</div>
+
+</body>
+</html>

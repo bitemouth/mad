@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function GuessingGame(){
+	var target = Math.floor(Math.random()*100);
+	var attempts = 0;
+	var message = "";
+	this.getAttempts = function(){return attempts;};
+	this.getMessage = function(){return message;};
+
+	this.play = function(guess){
+		attempts++;
+		if(guess > target)
+			message = "Aim Lower";
+		if(guess < target)
+			message = "Aim Higher";
+		if(guess == target)
+			message = "You have got it in " + attempts + " attempts";
+	}
+	
+}
+	var game = new GuessingGame();
+    function play(){
+		var guess = parseInt(document.getElementById("n1").value);
+		game.play(guess);
+		document.getElementById("message").innerHTML = game.getMessage();
+		document.getElementById("attempts").innerHTML = "Attempts : " + game.getAttempts();
+	}	
+
+</script>
+</head>
+<body>
+
+Enter a number between 1 to 100 : <input type="text" id="n1"> </br>
+
+<input type="button" value="Guess the Number" onClick="play();"> </br>
+
+<h1 id="message"></h1> </br>
+
+<h1 id="attempts"></h1>
+
+</body>
+</html>
