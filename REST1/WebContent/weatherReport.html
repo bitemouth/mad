@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="jquery-1.7.2.min.js"></script>
+	<script>
+	
+	$().ready(function() {
+		$("#btnClick").on("click",weatherSummary);		
+
+	});
+	
+	function weatherSummary(){
+		
+/* 		$.ajax({
+			url: "stpi/reporter/summary/"+$("#city").val(),
+			success : function(response) {
+				$("#summary").text(response.temperature);
+			}
+		  });
+ */		
+		// or
+	
+		var url = "stpi/reporter/summary/"+$("#city").val();
+ 		$.getJSON(url,function(response) {
+ 			$("#summary").text(response.temperature); 			
+ 		});
+	}
+	
+	</script>
+</head>
+<body>
+
+	City :<input type="text" id = "city"> </br>
+	
+	Weather report : <h2 id="summary"></h2> </br>
+	
+	<input type="button" id="btnClick" value="Get Summary"> 
+
+</body>
+</html>
