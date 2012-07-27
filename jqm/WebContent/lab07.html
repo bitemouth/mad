@@ -101,6 +101,16 @@
 		}
 			$("#citylist").listview("refresh");
 	}
+	
+	function logout(){
+		if(localStorage.getItem("user") != null && localStorage.getItem("pwd") != ""){
+			localStorage.removeItem("user");
+			localStorage.removeItem("pwd");
+			localStorage.removeItem("countries");
+		}
+		$("#clist").html("");
+		$.mobile.changePage("#loginScreen");
+	}	
 
 	$().ready(function() {
 		
@@ -118,7 +128,7 @@
 		 	});
 			populateCities($(this).text());	
 		});	
-		
+		$("#logoutLink").on("click",logout);		
 	});
 	
 </script>
@@ -163,6 +173,10 @@
 		<div data-role="header"> 	
 			<h2>You are welcome.</h2>
 		</div>
+		<div data-role="header">
+			<h1>Countries</h1>
+			<a data-theme="c" id="logoutLink">Logout</a>
+		</div>		
 	<div data-role="content" data-theme="b">		
 	 	<div data-role="collapsible-set">
 			<div data-role="collapsible" data-collapsed="false" data-content-theme="a">
