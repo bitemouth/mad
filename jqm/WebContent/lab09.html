@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+<link rel="stylesheet" href="jquery.mobile-1.1.1.css">
+<script src="jquery-1.7.2.min.js"></script>
+<script src="jquery.mobile-1.1.1.js"></script>
+
+<script>
+	var serverStatus =1;
+	function authenticate() {
+		$.mobile.changePage("#countryScreen",{
+			transition: "slide",
+		});
+		populateCountries();		
+	}
+	
+	function populateCountries() {
+		
+	  console.log("Calling populate countries...");
+	  
+	  $("#clist").html("");	  
+	  
+	  if(serverStatus == 1) {
+			$.ajax({
+				url: "countries.jsp",
+				dataType : "json",
+				success : function(response) {
+					$(response.countries).each(function() {
+						var option = "<li> <a href=''>" + this + "</a></li>";
+						$("#clist").append(option);
+						$("#clist").listview("refresh");						
+					});
+					localStorage.setItem("countries",$("#clist").html());
+				}
+			});
+	  }else {
+		  $("#clist").html(localStorage.getItem("countries"));	
+		  $("#offline").text("You are not connected to Internet...");
+	  }	
+		$("#clist").listview("refresh");		
+	}
+	
+	function populateCities(country) {
+		$.ajax({
+			data : {
+				country : country
+			},
+			url: "cities.jsp",
+			dataType : "json",
+			success : function(response) {
+				$("#citylist").html("");
+				$(response.cities).each(function() {
+					var option = "<li>" + this + "</li>"
+					$("#citylist").append(option);
+				     						
+				});
+			}
+		});
+	}
+	
+	
+/*	function showHomeScreen(){
+		$.mobile.changePage("#countryScreen");
+	}	
+*/	
+
+	$().ready(function() {
+		$("#clickBtn").on("click",authenticate);
+		$("#clist li a").live("click",function(){
+			$.mobile.changePage("#cityScreen",{
+				transition: "slide"
+		 	});
+			populateCities($(this).text());	
+		});	
+
+		// you can also use navigator.onLine		
+		window.applicationCache.addEventListener("error",function(e) {
+			serverStatus=0;
+		});
+		
+	});
+	
+</script>
+
+</head>
+<body>
+	
+	<div data-role="page">
+		<div data-role="header" data-theme="a">
+			<h3>Welcome to Banca Sella</h3>
+		</div>
+		<div data-role="content" data-theme="b">
+				<div data-role="fieldcontain">
+				 	<label>User Name </label>
+					<input type="text" id="user">
+				</div>
+				<div data-role="fieldcontain">
+				 	<label>Password </label>
+					<input type="password" id="pwd">
+				</div>
+				<div data-role="button" id="clickBtn">
+					Login				
+				</div>
+				<div>
+					<h2 id="msg"></h2>
+				</div>
+		</div>
+		<div data-role="footer" data-theme="a">
+			<p>
+				Copy Rights reserved 2012. </br>
+			</p>
+		</div>
+	</div>
+
+	<div data-role="page" id="countryScreen">
+		<div data-role="header"> 	
+			<h2>You are welcome.</h2>
+		</div>
+	 	<div data-role="collapsible-set" data-theme="b">
+			<div data-role="collapsible" data-collapsed="false" data-content-theme="a">
+				<h2>Countries</h2>
+				<ul id = "clist" data-role="listview" data-insert="true">
+				</ul>
+			</div>
+ 		</div>
+		
+		<div data-role="footer" data-theme="a">
+		 	<h2 id="offline"></h2> </br>
+			<p>
+				Copy Rights reserved 2012. </br>
+			</p>
+		</div>
+		
+	</div>
+
+	<div data-role="page" id="cityScreen">
+		<div data-role="header" data-theme="b">
+			<a href="#countryScreen">Back</a>
+			<h2 id="citiesScreenHeader"></h2>
+		</div>	
+		<div data-role="content" data-theme="b">
+			<ul id = "citylist" data-role="listview">
+			</ul>
+		</div>
+			<div data-role="footer" data-theme="a">
+			<p>
+				Copy Rights reserved 2012. </br>
+			</p>
+		</div>
+	</div>
+
+</body>
+</html>
