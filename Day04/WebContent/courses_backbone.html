@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="jquery-1.7.2.js"></script>
+	<script src="jquery-1.7.2.js"></script>
+	<script src="underscore-min.js"></script>
+	<script src="backbone-min.js"></script>
+	<script src="course-model.js"></script>
+	<script src="course-view.js"></script>
+	
+	<script>
+		var app = {
+				courseList : undefined,
+				courseListView : undefined,
+				addCourseView : undefined
+		};
+	
+		$().ready(function() {
+			app.courseList = new CourseList();
+			app.courseListView = new CourseListView({collection:app.courseList});
+			app.addCourseView = new AddCourseView({
+				model:new Course(),
+				collection : app.courseList
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="addCourse">
+		Course <input type="text" id="courseNameText">
+		<input type="button" value="Add Course" id="addCourseBtn">
+		<h4 id="results"></h4>
+	</div>	
+	<hr/>
+	<h5>List of courses</h5>
+	<ul id="courseList"></ul>
+	
+</body>
+</html>

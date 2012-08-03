@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.7.2.js"></script>
+<script src="underscore-min.js"></script>
+<script src="backbone-min.js"></script>
+<script src="NumberGameModel.js"></script>
+<script src="NumberGameView.js"></script>
+	<script>
+	
+		$().ready(function() {
+			var numModel = new NumberGameModel();
+			var historyColl = new GameHistoryList();
+			var numView = new NumberGameView({model:numModel,collection:historyColl});			
+		});
+	
+	</script>
+
+</head>
+<body>
+
+Enter a number between 1 to 100 : <input type="text" id="n1"> </br>
+
+<input type="button" id="btnClick" value="Guess the Number"> </br>
+
+<h1 id="message"></h1> </br>
+
+<h1 id="attempts"></h1>
+
+<hr/>
+
+<table id="history" border="1">
+</table>
+
+</body>
+</html>

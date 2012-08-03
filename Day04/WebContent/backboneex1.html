@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.7.2.js"></script>
+<script src="underscore-min.js"></script>
+<script src="backbone-min.js"></script>
+<script src="countrymodel.js"></script>
+<script src="countryview.js"></script>
+	<script>
+	
+		$().ready(function() {
+			var country = new Country();
+			var countryView = new CountryView({model:country});			
+		});
+	
+	</script>
+	
+</head>
+<body>
+
+Country <input type="text" id="countrytxt"> </br>
+<input type="button" value="Get Capital" id="btnClick">
+<h2 id="capital"></h2>
+</body>
+</html>
